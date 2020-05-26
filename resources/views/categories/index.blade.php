@@ -74,14 +74,12 @@ Add Category
 
                     <form action="" method="POST" id="deleteCategoryForm">
 
-
                         @csrf
-
 
                         @method('DELETE')
 
 
-                    <div class="modal-content" style="margin-top: 50%">
+                    <div class="modal-content" style="margin-top: 40%">
 
                         <div class="modal-header">
 
@@ -94,7 +92,7 @@ Add Category
                                 <i class="fa fa-exclamation-triangle" style="color: red"></i>
 
 
-                                You Are About to Delete this Category
+                                You Are About to Delete This Category
 
                                 <i class="fa fa-exclamation-triangle" style="color: red"></i>
 
