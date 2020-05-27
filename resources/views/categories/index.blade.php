@@ -18,17 +18,22 @@ Add Category
 
         <div class="card-body">
 
+            @if($categories->count() > 0)
+
+
             <table class="table">
 
                 <thead>
 
-                    <th>
+                    <th>Name</th>
 
-                    Name
+                    <th>Posts Count</th>
 
-                    </th>
 
-                    <th></th>
+
+                    <th> <i class="fa fa-edit"></i>
+
+                        <i class="fa fa-trash ml-4"></i></th>
 
                 </thead>
 
@@ -44,8 +49,15 @@ Add Category
 
                         </td>
 
-                        <td>
 
+                            <td>
+
+                                {{ $category->posts->count() }}
+
+                            </td>
+
+                            <td>
+                                
                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-info btn-sm">
 
                         Edit
@@ -67,6 +79,8 @@ Add Category
                 </tbody>
 
             </table>
+
+
 
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
 
@@ -146,6 +160,13 @@ Add Category
             </div>
 
         </div>
+
+
+        @else
+
+        <h3 class="text-center">No Categories Yet</h3>
+
+        @endif
 
     </div>
 

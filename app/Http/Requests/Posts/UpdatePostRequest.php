@@ -33,6 +33,8 @@ class UpdatePostRequest extends FormRequest
 
             'content' => 'required',
 
+            'category' => 'required'
+
         ];
     }
 }

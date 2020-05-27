@@ -4,7 +4,7 @@
 
 <div class="d-flex justify-content-end mb-2">
 
-    <a href="{{ route('posts.create') }}" class="btn btn-success float-right">
+    <a href="{{ route('posts.create') }}" class="btn btn-success">
 
     Add Post
 
@@ -18,6 +18,9 @@
 
     <div class="card-body">
 
+        @if($posts->count() > 0)
+
+
         <table class="table">
 
             <thead>
@@ -26,9 +29,18 @@
 
                 <th>Title</th>
 
-                <th></th>
+                <th>Category</th>
+                <th>
 
-                <th></th>
+                    <i class="fa fa-edit"></i>
+
+                </th>
+
+                <th>
+
+                    <i class="fa fa-trash"></i>
+
+                </th>
 
             </thead>
 
@@ -53,25 +65,58 @@
 
                     <td>
 
-                        <a href="" class="btn btn-info btn-sm" style="color:white">
+                    <a href="{{ route('categories.edit', $post->category->id) }}">
 
-                            <i class="fa fa-edit"></i>
-
-                            Edit
-
-                        </a>
+                        {{ $post->category->name }}
+                    </a>
 
                     </td>
 
+
+                    @if($post->trashed())
+
                     <td>
 
-                        <a href="" class="btn btn-danger btn-sm">
+                    <form action="{{ route('restore-posts', $post->id) }}" method="POST">
 
-                            <i class="fa fa-trash"></i>
+                        @csrf
 
-                            Trash
+                        @method('PUT')
 
-                        </a>
+                        <button type="submit" class="btn btn-info btn-sm" style="color:white">Restore</button>
+
+
+                    </form>
+
+                    </td>
+
+                    @else
+
+                    <td>
+
+                        <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-info btn-sm" style="color:white">Edit</a>
+
+                    </td>
+
+
+                    @endif
+
+                    <td>
+
+
+                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST">
+
+                        @csrf
+
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-danger btn-sm">
+
+                            {{ $post->trashed() ? 'Delete': 'Trash'}}
+
+                        </button>
+
+                    </form>
 
                     </td>
 
@@ -82,6 +127,16 @@
                 </tbody>
 
             </table>
+
+
+            @else
+
+
+
+            <h3 class="text-center">No Posts Yet</h3>
+
+
+             @endif
 
         </div>
 
