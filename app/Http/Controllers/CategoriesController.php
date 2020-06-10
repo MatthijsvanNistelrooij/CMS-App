@@ -40,7 +40,7 @@ class CategoriesController extends Controller
             Category::create([
             'name' => $request->name
             ]);
-            session()->Flash('success', 'Category created successfully.');
+            session()->flash('success', 'Category created successfully.');
             return redirect(route('categories.index'));
     }
     /**
@@ -95,6 +95,10 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
+        if ($category->posts->count() > 0) {
+            session()->flash('error', 'Category cannot be deleted because it has some posts.');
+            return redirect()->back();
+        }
         $category->delete();
         session()->flash('success', 'Category deleted successfully.');
         return redirect(route('categories.index'));

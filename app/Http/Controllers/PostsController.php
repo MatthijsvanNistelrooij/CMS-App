@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Posts\CreatePostsRequest;
 use App\Http\Requests\Posts\UpdatePostRequest;
 use App\Post;
+use App\Tag;
 use App\Category;
 use Illuminate\Support\Facades\Storage;
 
@@ -28,7 +29,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create')->with('categories', Category::all());
+        return view('posts.create')->with('categories', Category::all())->with('tags', Tag::all());
     }
 
     /**
@@ -42,7 +43,7 @@ class PostsController extends Controller
         // upload image to storage
       $image = $request->image->store('posts');
         // create the post
-        Post::create([
+        $post = Post::create([
             'title'=> $request->title,
             'description' => $request->description,
             'content' => $request->content,
@@ -50,6 +51,10 @@ class PostsController extends Controller
             'category_id' => $request->category,
             // 'published_at' => $request->published_at,
             ]);
+
+            if ($request->tags) {
+                $post->tags()->attach($request->tags);
+            }
         // flash message
         session()->flash('success', 'Post created successfully');
         // redirect user
@@ -73,7 +78,7 @@ class PostsController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.create')->with('post', $post)->with('categories', Category::all());
+        return view('posts.create')->with('post', $post)->with('categories', Category::all())->with('tags', Tag::all());
     }
     /**
      * Update the specified resource in storage.
@@ -93,6 +98,10 @@ class PostsController extends Controller
         $post->deleteImage();
         // Storage::delete($post->image);
         $data['image'] = $image;
+    }
+ 
+    if ($request->tags) {
+        $post->tags()->sync($request->tags);
     }
         // update attributes
         $post->update($data);
