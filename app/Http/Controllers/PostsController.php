@@ -48,8 +48,10 @@ class PostsController extends Controller
             'description' => $request->description,
             'content' => $request->content,
             'image' => $image,
+            'published_at' => $request->published_at,
             'category_id' => $request->category,
-            // 'published_at' => $request->published_at,
+            'user_id' => auth()->user()->id,
+
             ]);
 
             if ($request->tags) {
@@ -99,7 +101,7 @@ class PostsController extends Controller
         // Storage::delete($post->image);
         $data['image'] = $image;
     }
- 
+
     if ($request->tags) {
         $post->tags()->sync($request->tags);
     }
